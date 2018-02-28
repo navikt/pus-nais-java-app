@@ -2,13 +2,10 @@
 set -e
 set -x
 
-# TODO ikke prodklart enda, men det kommer!
-
 # [ -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap ]
 # https://blogs.oracle.com/java-platform-group/java-se-support-for-docker-cpu-and-memory-limits
 
-
-java \
+exec java \
 -XX:+UnlockExperimentalVMOptions \
 -XX:+UseCGroupMemoryLimitForHeap \
 -server \
