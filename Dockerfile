@@ -1,4 +1,10 @@
+FROM docker.adeo.no:5000/pus/toolbox as downloader
+RUN wget https://repo.adeo.no/repository/raw/appdynamics/appdynamics.zip -O temp.zip
+RUN unzip temp.zip
+
 FROM openjdk:8-jre-alpine
+
+COPY --from=downloader /appdynamics /appdynamics
 
 ENV LC_ALL="no_NB.UTF-8"
 ENV LANG="no_NB.UTF-8"
