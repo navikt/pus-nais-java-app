@@ -17,5 +17,6 @@ ARG APP_DIR=/app
 ENV APP_DIR=${APP_DIR}
 
 ADD run.sh /run.sh
+ADD proxy.sh /proxy.sh
 RUN chmod +x /run.sh
 CMD sh /run.sh
