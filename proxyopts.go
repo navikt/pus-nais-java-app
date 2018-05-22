@@ -4,10 +4,37 @@ import (
 	"fmt"
 	"net/url"
 	"os"
+	"strconv"
 	"strings"
 )
 
-func httpOpts(flags []string) ([]string, error) {
+type JavaOption struct {
+	Key   string
+	Value string
+}
+
+type JavaOptions []JavaOption
+
+func (o JavaOption) Format() string {
+	return fmt.Sprintf("-D%s=%s", o.Key, strconv.Quote(o.Value))
+}
+
+func NewJavaOption(key string, value string) JavaOption {
+	return JavaOption{
+		Key:   key,
+		Value: value,
+	}
+}
+
+func (o JavaOptions) Format() string {
+	s := make([]string, len(o))
+	for i, opt := range o {
+		s[i] = opt.Format()
+	}
+	return strings.Join(s, " ")
+}
+
+func httpOpts(flags JavaOptions) (JavaOptions, error) {
 	v, found := os.LookupEnv("HTTP_PROXY")
 	if !found {
 		return flags, nil
@@ -22,10 +49,10 @@ func httpOpts(flags []string) ([]string, error) {
 		return flags, fmt.Errorf("if specifying a proxy URL, both hostname and port is required")
 	}
 
-	flags = append(flags, fmt.Sprintf("-Dhttp.proxyHost=\"%s\"", u.Hostname()))
-	flags = append(flags, fmt.Sprintf("-Dhttp.proxyPort=\"%s\"", u.Port()))
-	flags = append(flags, fmt.Sprintf("-Dhttps.proxyHost=\"%s\"", u.Hostname()))
-	flags = append(flags, fmt.Sprintf("-Dhttps.proxyPort=\"%s\"", u.Port()))
+	flags = append(flags, NewJavaOption("http.proxyHost", u.Hostname()))
+	flags = append(flags, NewJavaOption("https.proxyHost", u.Hostname()))
+	flags = append(flags, NewJavaOption("http.proxyPort", u.Port()))
+	flags = append(flags, NewJavaOption("https.proxyPort", u.Port()))
 
 	return flags, nil
 }
@@ -43,7 +70,7 @@ func mangleWildcard(hosts []string) []string {
 	return mangled
 }
 
-func noProxyOpts(flags []string) ([]string, error) {
+func noProxyOpts(flags JavaOptions) (JavaOptions, error) {
 	v, found := os.LookupEnv("NO_PROXY")
 	if !found {
 		return flags, nil
@@ -52,7 +79,7 @@ func noProxyOpts(flags []string) ([]string, error) {
 	hosts := mangleWildcard(strings.Split(v, ","))
 
 	if len(hosts) > 0 {
-		flags = append(flags, fmt.Sprintf("-Dhttp.nonProxyHosts=\"%s\"", strings.Join(hosts, "|")))
+		flags = append(flags, NewJavaOption("http.nonProxyHosts", strings.Join(hosts, "|")))
 	}
 
 	return flags, nil
@@ -60,7 +87,7 @@ func noProxyOpts(flags []string) ([]string, error) {
 
 func main() {
 	var err error
-	flags := make([]string, 0)
+	flags := make(JavaOptions, 0)
 
 	flags, err = httpOpts(flags)
 	if err != nil {
@@ -70,5 +97,5 @@ func main() {
 
 	flags, _ = noProxyOpts(flags)
 
-	fmt.Fprintf(os.Stdout, strings.Join(flags, " "))
+	fmt.Fprintf(os.Stdout, flags.Format())
 }
