@@ -17,6 +17,8 @@ APPDYNAMICS_OPTS="
 
 fi
 
+# Convert proxy settings to Java form
+PROXY_OPTS=$(/proxyopts)
 
 # [ -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap ]
 # https://blogs.oracle.com/java-platform-group/java-se-support-for-docker-cpu-and-memory-limits
@@ -25,6 +27,7 @@ exec java \
 -XX:+UnlockExperimentalVMOptions \
 -XX:+UseCGroupMemoryLimitForHeap \
 ${APPDYNAMICS_OPTS} \
+${PROXY_OPTS} \
 -server \
 -classpath "${APP_DIR}/WEB-INF/classes:${APP_DIR}/WEB-INF/lib/*" \
 Main
