@@ -38,6 +38,14 @@ var testCases = []struct {
 		NO_PROXY:   "host1,host2,.wildcard.local,.local,foo",
 		Output:     `-Dhttp.proxyHost="foo.bar" -Dhttps.proxyHost="foo.bar" -Dhttp.proxyPort="1234" -Dhttps.proxyPort="1234" -Dhttp.nonProxyHosts="host1|host2|*.wildcard.local|*.local|foo"`,
 	},
+	{
+		HTTP_PROXY: "foo.bar:1234",
+		Error:      true,
+	},
+	{
+		HTTP_PROXY: "http://proxy",
+		Error:      true,
+	},
 }
 
 func TestSuccess(t *testing.T) {
