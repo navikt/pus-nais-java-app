@@ -3,8 +3,6 @@ package main
 import (
 	"os"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 var testCases = []struct {
@@ -43,18 +41,24 @@ var testCases = []struct {
 }
 
 func TestSuccess(t *testing.T) {
-	for _, test := range testCases {
+	for i, test := range testCases {
 		os.Setenv("HTTP_PROXY", test.HTTP_PROXY)
 		os.Setenv("HTTPS_PROXY", test.HTTPS_PROXY)
 		os.Setenv("NO_PROXY", test.NO_PROXY)
 
-		opts, err := ProxyOptions()
+		output, err := ProxyOptions()
 
 		if test.Error {
-			assert.NotNil(t, err)
+			if err == nil {
+				t.Fatalf("Test #%d: expected error, got success instead", i)
+			}
 		} else {
-			assert.Nil(t, err)
-			assert.Equal(t, opts, test.Output)
+			if err != nil {
+				t.Fatalf("Test #%d: expected success, got error: %s", i, err)
+			}
+			if output != test.Output {
+				t.Fatalf("Test #%d: expected output \"%s\", got \"%s\"", i, test.Output, output)
+			}
 		}
 	}
 }
