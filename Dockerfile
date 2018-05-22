@@ -4,6 +4,9 @@ RUN unzip temp.zip
 
 FROM golang:1.10 as go
 ADD proxyopts.go /proxyopts.go
+ADD proxyopts_test.go /proxyopts_test.go
+RUN go get github.com/stretchr/testify
+RUN go test /proxyopts.go /proxyopts_test.go
 RUN GOOS=linux GOARCH=amd64 go build -o /proxyopts /proxyopts.go
 
 FROM openjdk:8-jre-alpine

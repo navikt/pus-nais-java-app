@@ -36,7 +36,7 @@ func (o JavaOptions) Format() string {
 
 func httpOpts(flags JavaOptions) (JavaOptions, error) {
 	v, found := os.LookupEnv("HTTP_PROXY")
-	if !found {
+	if !found || len(v) == 0 {
 		return flags, nil
 	}
 
@@ -72,7 +72,7 @@ func mangleWildcard(hosts []string) []string {
 
 func noProxyOpts(flags JavaOptions) (JavaOptions, error) {
 	v, found := os.LookupEnv("NO_PROXY")
-	if !found {
+	if !found || len(v) == 0 {
 		return flags, nil
 	}
 
@@ -85,17 +85,27 @@ func noProxyOpts(flags JavaOptions) (JavaOptions, error) {
 	return flags, nil
 }
 
-func main() {
-	var err error
+func ProxyOptions() (s string, err error) {
 	flags := make(JavaOptions, 0)
 
 	flags, err = httpOpts(flags)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "error in parsing proxy URL: %s\n", err)
-		os.Exit(1)
+		err = fmt.Errorf("error in parsing proxy URL: %s", err)
+		return
 	}
 
 	flags, _ = noProxyOpts(flags)
 
-	fmt.Fprintf(os.Stdout, flags.Format())
+	s = flags.Format()
+
+	return
+}
+
+func main() {
+	s, err := ProxyOptions()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%s\n", err)
+		os.Exit(1)
+	}
+	fmt.Fprintf(os.Stdout, s)
 }
