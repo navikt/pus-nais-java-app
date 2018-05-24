@@ -14,7 +14,7 @@ var testCases = []struct {
 }{
 	{
 		HTTP_PROXY: "http://foo.bar:1234",
-		Output:     `-Dhttp.proxyHost="foo.bar" -Dhttps.proxyHost="foo.bar" -Dhttp.proxyPort="1234" -Dhttps.proxyPort="1234"`,
+		Output:     `-Dhttp.proxyHost=foo.bar -Dhttps.proxyHost=foo.bar -Dhttp.proxyPort=1234 -Dhttps.proxyPort=1234`,
 	},
 	{
 		HTTPS_PROXY: "http://foo.bar:1234",
@@ -23,7 +23,7 @@ var testCases = []struct {
 	{
 		HTTP_PROXY:  "http://foo.bar:1234",
 		HTTPS_PROXY: "http://baz:12345",
-		Output:      `-Dhttp.proxyHost="foo.bar" -Dhttps.proxyHost="foo.bar" -Dhttp.proxyPort="1234" -Dhttps.proxyPort="1234"`,
+		Output:      `-Dhttp.proxyHost=foo.bar -Dhttps.proxyHost=foo.bar -Dhttp.proxyPort=1234 -Dhttps.proxyPort=1234`,
 	},
 	{
 		NO_PROXY: "internalhost",
@@ -36,7 +36,7 @@ var testCases = []struct {
 	{
 		HTTP_PROXY: "http://foo.bar:1234",
 		NO_PROXY:   "host1,host2,.wildcard.local,.local,foo",
-		Output:     `-Dhttp.proxyHost="foo.bar" -Dhttps.proxyHost="foo.bar" -Dhttp.proxyPort="1234" -Dhttps.proxyPort="1234" -Dhttp.nonProxyHosts="host1|host2|*.wildcard.local|*.local|foo"`,
+		Output:     `-Dhttp.proxyHost=foo.bar -Dhttps.proxyHost=foo.bar -Dhttp.proxyPort=1234 -Dhttps.proxyPort=1234 -Dhttp.nonProxyHosts="host1|host2|*.wildcard.local|*.local|foo"`,
 	},
 	{
 		HTTP_PROXY: "foo.bar:1234",
