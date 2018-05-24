@@ -16,7 +16,10 @@ type JavaOption struct {
 type JavaOptions []JavaOption
 
 func (o JavaOption) Format() string {
-	return fmt.Sprintf("-D%s=%s", o.Key, strconv.Quote(o.Value))
+	if o.Key == "http.nonProxyHosts" {
+		o.Value = strconv.Quote(o.Value)
+	}
+	return fmt.Sprintf("-D%s=%s", o.Key, o.Value)
 }
 
 func NewJavaOption(key string, value string) JavaOption {
