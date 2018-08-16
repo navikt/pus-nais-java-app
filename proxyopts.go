@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/url"
 	"os"
-	"strconv"
 	"strings"
 )
 
@@ -16,9 +15,6 @@ type JavaOption struct {
 type JavaOptions []JavaOption
 
 func (o JavaOption) Format() string {
-	if o.Key == "http.nonProxyHosts" {
-		o.Value = strconv.Quote(o.Value)
-	}
 	return fmt.Sprintf("-D%s=%s", o.Key, o.Value)
 }
 
