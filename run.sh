@@ -26,6 +26,7 @@ PROXY_OPTS=$(/proxyopts)
 exec java \
 -XX:+UnlockExperimentalVMOptions \
 -XX:+UseCGroupMemoryLimitForHeap \
+${JAVA_OPTS} \
 ${APPDYNAMICS_OPTS} \
 ${PROXY_OPTS} \
 -server \
