@@ -23,9 +23,13 @@ PROXY_OPTS=$(/proxyopts)
 # [ -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap ]
 # https://blogs.oracle.com/java-platform-group/java-se-support-for-docker-cpu-and-memory-limits
 
+# [ -XX:+MaxRAMFraction=2 ]
+# https://stackoverflow.com/questions/49854237/is-xxmaxramfraction-1-safe-for-production-in-a-containered-environment
+
 exec java \
 -XX:+UnlockExperimentalVMOptions \
 -XX:+UseCGroupMemoryLimitForHeap \
+-XX:MaxRAMFraction=2 \
 ${JAVA_OPTS} \
 ${APPDYNAMICS_OPTS} \
 ${PROXY_OPTS} \
