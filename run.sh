@@ -2,7 +2,7 @@
 set -e
 set -x
 
-
+APP_DIR=/app
 HOSTNAME=`hostname`
 
 # ikke aktiver appdynamic med mindre man har
