@@ -30,6 +30,7 @@ exec java \
 -XX:+UnlockExperimentalVMOptions \
 -XX:+UseCGroupMemoryLimitForHeap \
 -XX:MaxRAMFraction=2 \
+-XX:HeapDumpOnOutOfMemoryError \
 ${JAVA_OPTS} \
 ${APPDYNAMICS_OPTS} \
 ${PROXY_OPTS} \
