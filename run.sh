@@ -32,6 +32,7 @@ exec java \
 -XX:MaxRAMFraction=2 \
 -XX:+HeapDumpOnOutOfMemoryError \
 -XX:HeapDumpPath=/oom-dump.hprof \
+-Dfile.encoding=UTF8 \
 ${JAVA_OPTS} \
 ${APPDYNAMICS_OPTS} \
 ${PROXY_OPTS} \
