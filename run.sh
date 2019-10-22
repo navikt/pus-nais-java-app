@@ -23,9 +23,9 @@ if [ "${APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY}" != "" ]; then
 
     APPDYNAMICS_OPTS="
     -javaagent:/appdynamics/javaagent.jar
-    -Dappdynamics.agent.applicationName=${APP_NAME}
+    -Dappdynamics.agent.applicationName=${NAIS_APP_NAME}
     -Dappdynamics.agent.nodeName=${HOSTNAME}
-    -Dappdynamics.agent.tierName=${NAIS_NAMESPACE}_${APP_NAME}
+    -Dappdynamics.agent.tierName=${NAIS_NAMESPACE}_${NAIS_APP_NAME}
     "
 else
     echo 'Cannot find APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY. Skipping setting of APPDYNAMICS_OPTS'
