@@ -1,6 +1,5 @@
 #!/bin/sh
 set -e
-set -x
 
 APP_DIR=/app
 HOSTNAME=`hostname`
