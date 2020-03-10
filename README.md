@@ -1,7 +1,9 @@
 # pus-nais-java-app
-baseimage for java apps running on nais
+Baseimage for java apps running on nais
 
 ## usage
-- add your exploded war to `/app`
-
-[example](https://github.com/navikt/veilarbdemo/blob/master/Dockerfile)
+Create a dockerfile with the contents:
+```docker
+FROM navikt/java:8
+COPY /target/<app-name> .
+```

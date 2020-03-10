@@ -8,7 +8,7 @@ ADD proxyopts_test.go /proxyopts_test.go
 RUN go test /proxyopts.go /proxyopts_test.go
 RUN GOOS=linux GOARCH=amd64 go build -o /proxyopts /proxyopts.go
 
-FROM openjdk:8u181-jdk
+FROM openjdk:11-jdk-slim
 
 COPY --from=downloader /appdynamics /appdynamics
 COPY --from=go /proxyopts /proxyopts

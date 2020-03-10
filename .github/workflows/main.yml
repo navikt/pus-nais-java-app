@@ -1,0 +1,18 @@
+name: Build and push
+on: push
+env:
+  IMAGE: docker.pkg.github.com/${{ github.repository }}/pus-nais-java-app
+jobs:
+  build-and-push:
+    name: Build and push
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - name: Build and push Docker image
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo ${GITHUB_TOKEN} | docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} --password-stdin
+          docker build -t ${IMAGE}:java8 java-8
+          docker build -t ${IMAGE}:java11 java-11
+          docker push ${IMAGE}:java8 ${IMAGE}:java11
