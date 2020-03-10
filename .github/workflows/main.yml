@@ -8,11 +8,13 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     steps:
-      - name: Build and push Docker image
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Build and push Docker images
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo ${GITHUB_TOKEN} | docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} --password-stdin
           docker build -t ${IMAGE}:java8 java-8
           docker build -t ${IMAGE}:java11 java-11
-          docker push ${IMAGE}:java8 ${IMAGE}:java11
+          docker push ${IMAGE}
