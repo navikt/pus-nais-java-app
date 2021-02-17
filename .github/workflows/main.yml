@@ -19,4 +19,7 @@ jobs:
           docker build -t ${IMAGE}:java11 java-11
           docker build -t ${IMAGE}:java13 java-13
           docker build -t ${IMAGE}:java15 java-15
-          docker push ${IMAGE}
+          docker push ${IMAGE}:java8
+          docker push ${IMAGE}:java11
+          docker push ${IMAGE}:java13
+          docker push ${IMAGE}:java15
