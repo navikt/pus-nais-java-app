@@ -1,7 +1,9 @@
 name: Build and push
 on: push
 env:
-  IMAGE: docker.pkg.github.com/${{ github.repository }}/pus-nais-java-app
+  IMAGE_DOCKER_PKG: docker.pkg.github.com/${{ github.repository }}/pus-nais-java-app
+  IMAGE_GHCR: ghcr.io/${{ github.repository }}/pus-nais-java-app
+
 jobs:
   build-and-push:
     name: Build and push
@@ -10,16 +12,31 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-      - name: Build and push Docker images
+
+      - name: Build and push Docker images to docker.pkg.github.com
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo ${GITHUB_TOKEN} | docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} --password-stdin
-          docker build -t ${IMAGE}:java8 java-8
-          docker build -t ${IMAGE}:java11 java-11
-          docker build -t ${IMAGE}:java13 java-13
-          docker build -t ${IMAGE}:java15 java-15
-          docker push ${IMAGE}:java8
-          docker push ${IMAGE}:java11
-          docker push ${IMAGE}:java13
-          docker push ${IMAGE}:java15
+          docker build -t ${IMAGE_DOCKER_PKG}:java8 java-8
+          docker build -t ${IMAGE_DOCKER_PKG}:java11 java-11
+          docker build -t ${IMAGE_DOCKER_PKG}:java13 java-13
+          docker build -t ${IMAGE_DOCKER_PKG}:java15 java-15
+          docker push ${IMAGE_DOCKER_PKG}:java8
+          docker push ${IMAGE_DOCKER_PKG}:java11
+          docker push ${IMAGE_DOCKER_PKG}:java13
+          docker push ${IMAGE_DOCKER_PKG}:java15
+
+      - name: Build and push Docker images to ghcr.io
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo ${GITHUB_TOKEN} | docker login ghcr.io -u ${GITHUB_REPOSITORY} --password-stdin
+          docker build -t ${IMAGE_GHCR}:java8 java-8
+          docker build -t ${IMAGE_GHCR}:java11 java-11
+          docker build -t ${IMAGE_GHCR}:java13 java-13
+          docker build -t ${IMAGE_GHCR}:java15 java-15
+          docker push ${IMAGE_GHCR}:java8
+          docker push ${IMAGE_GHCR}:java11
+          docker push ${IMAGE_GHCR}:java13
+          docker push ${IMAGE_GHCR}:java15
