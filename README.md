@@ -1,5 +1,5 @@
 # pus-nais-java-app
-Baseimage for java apps running on nais
+Baseimage for java apps running on nais.
 
 ## usage
 Create a dockerfile with the contents:
