@@ -22,10 +22,12 @@ jobs:
           docker build -t ${IMAGE_DOCKER_PKG}:java11 java-11
           docker build -t ${IMAGE_DOCKER_PKG}:java13 java-13
           docker build -t ${IMAGE_DOCKER_PKG}:java15 java-15
+          docker build -t ${IMAGE_DOCKER_PKG}:java17 java-17
           docker push ${IMAGE_DOCKER_PKG}:java8
           docker push ${IMAGE_DOCKER_PKG}:java11
           docker push ${IMAGE_DOCKER_PKG}:java13
           docker push ${IMAGE_DOCKER_PKG}:java15
+          docker push ${IMAGE_DOCKER_PKG}:java17
 
       - name: Build and push Docker images to ghcr.io
         env:
@@ -36,7 +38,9 @@ jobs:
           docker build -t ${IMAGE_GHCR}:java11 java-11
           docker build -t ${IMAGE_GHCR}:java13 java-13
           docker build -t ${IMAGE_GHCR}:java15 java-15
+          docker build -t ${IMAGE_GHCR}:java17 java-17
           docker push ${IMAGE_GHCR}:java8
           docker push ${IMAGE_GHCR}:java11
           docker push ${IMAGE_GHCR}:java13
           docker push ${IMAGE_GHCR}:java15
+          docker push ${IMAGE_GHCR}:java17
