@@ -7,4 +7,3 @@ Create a dockerfile with the contents:
 FROM navikt/java:8
 COPY /target/<app-name> .
 ```
-
